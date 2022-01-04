@@ -1,0 +1,39 @@
+.single,
+.double {
+    height: 50px;
+    font-size: 25px;
+}
+
+.single {
+    width: 80px;
+}
+
+.double {
+    width: 164px;
+}
+
+.row {
+    margin: 5px;
+}
+
+#calculator {
+    margin-top: 150px;
+    display: inline-block;
+    background-color: rgb(187, 187, 187);
+}
+
+body {
+    text-align: center;
+}
+
+#screen {
+    background-color: white;
+    margin: 6px;
+    height: 50px;
+}
+
+#screen,
+#calculator {
+    border: 5px solid rgb(158, 158, 158);
+    border-radius: 5px;
+}
