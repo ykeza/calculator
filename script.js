@@ -241,11 +241,11 @@ equal.addEventListener('click', () => {
 const negator = document.querySelector('#negator');
 negator.addEventListener('click', () => {
     if (!secondOp) {
-        firstOp = negate(firstOp);
-        firstStore = negate(firstStore);
+        firstOp = negate(firstOp).toString();
+        firstStore = negate(firstStore).toString();
     } else {
-        secondOp = negate(secondOp);
-        secondStore = negate(secondStore);
+        secondOp = negate(secondOp).toString();
+        secondStore = negate(secondStore).toString();
     };
     screen.innerHTML = `<p>${negate(screen.innerText)}</p>`;
 });
