@@ -1,3 +1,12 @@
+let sum = '';
+let oper = '';
+let firstOp = '';
+let secondOp = '';
+let operStore = '';
+let firstStore = '';
+let secondStore = '';
+let currentScreen = '';
+
 const add = (x, y) => {
     return x + y;
 };
@@ -8,8 +17,44 @@ const multiply = (x, y) => {
     return x * y;
 };
 const divide = (x, y) => {
-    return x / y;
+    if (y == 0) {
+        return 'ERR';
+    } else {
+        return x / y;
+    };
 };
+const modulo = (x, y) => {
+    if (x < 0 || y < 0) {
+        return 'ERR';
+    } else {
+        if (y > x) {
+            return 'ERR';
+        } else {
+            let total = x / y;
+            let floor = Math.floor(total);
+            let mod = x - (floor * y);
+            return mod;
+        };
+    };
+};
+const rounded = num => {
+    let numString = num.toString();
+    if (numString.indexOf('.' == -1)) {        
+        if (numString.length > 7) {
+            let numNum = num.toExponential(1);
+            return numNum.toString();
+        } else {
+            return num;
+        }
+    } else {
+        if (num.length > 8) {
+            let numNum = num.toExponential(1);
+            return numNum.toString();  
+        } else {
+            return num;
+        }
+    }
+}
 const negate = num => {
     return num - num * 2;
 };
@@ -27,28 +72,49 @@ const operate = (x, y, op) => {
         case "/":
             return divide(x, y);
             break;
+        case "%":
+            return modulo(x, y);
+            break;
         default:
-            return 'ERR';
+            return 'HAHAHA';
             break;
     }
 };
-let firstOp = '';
-let firstStore = '';
-let oper = '';
-let operStore = '';
-let secondOp = '';
-let secondStore = '';
-let sum = '';
+const clear = document.getElementById('clear');
+const clearer = () => {
+    screen.innerHTML = `<p>0</p>`;
+    if (!secondOp) {
+        oper = '';
+        operStore = '';
+        firstOp = '';
+        firstStore = '';
+    } else {
+        secondOp = '';
+        secondStore = '';
+    };
+};
+clear.addEventListener('click', clearer);
 
+const screen = document.getElementById('screen');
+const updateScreen = num => {
+    screen.innerHTML = `<p>${num}</p>`;
+};
 const firstOper = num => {
     let nums = String(firstOp).replace('.', '').length;
     if (nums >= 7) {
         return;
     } else {
-        let _num = num.target.innerHTML;
-        firstOp += `${_num}`;
-        firstStore = firstOp;
-        console.log(firstStore);
+        if (num.key) {            
+            let _num = num.key;
+            firstOp += `${_num}`;
+            firstStore = firstOp;
+            updateScreen(firstStore);
+        } else {            
+            let _num = num.target.id;
+            firstOp += `${_num}`;
+            firstStore = firstOp;
+            updateScreen(firstStore);
+        }
     };
 };
 const secondOper = num => {
@@ -56,37 +122,158 @@ const secondOper = num => {
     if (nums >= 7) {
         return;
     } else {
-        let _num = num.target.innerHTML;
-        secondOp += `${_num}`;
-        secondStore = secondOp;
-        console.log(secondStore);
+        if (num.key) {            
+            let _num = num.key;
+            secondOp += `${_num}`;
+            secondStore = secondOp;
+            updateScreen(secondStore);
+        } else {            
+            let _num = num.target.id;
+            secondOp += `${_num}`;
+            secondStore = secondOp;
+            updateScreen(secondStore);
+        }
     };
 };
 const numbers = document.querySelectorAll('.number');
 for (let i = 0; i < numbers.length; i++) {
     numbers[i].addEventListener('click', e => {
-        if (!oper && !secondOp) {
-            firstOper(e);
+        if (e.target.id == '.') {
+            if (!oper && !secondOp) {
+                if (firstOp.indexOf('.') == -1) {
+                    firstOper(e);
+                } else {
+                    return;
+                };
+            } else {
+                if (secondOp.indexOf('.') == -1) {
+                    secondOper(e);
+                } else {
+                    return;
+                };
+            };
         } else {
-            secondOper(e);
-        }
+            if (!oper && !secondOp) {
+                if (firstOp == '0') {
+                    firstOp = '';
+                    firstStore = '';
+                    firstOper(e);
+                } else {
+                    firstOper(e);
+                }
+            } else {
+                if (secondOp == '0') {
+                    secondOp = '';
+                    secondStore = '';
+                    secondOper(e);
+                } else {
+                    secondOper(e);
+                }
+            };
+        };
     });
 };
+let numbs = Array.from(numbers).map(num => num.id);
+window.addEventListener('keydown', e => {
+    if (numbs.indexOf(e.key) != -1) {
+        if (e.key == '.') {
+            if (!oper && !secondOp) {
+                if (firstOp.indexOf('.') == -1) {
+                    firstOper(e);
+                } else {
+                    return;
+                };
+            } else {
+                if (secondOp.indexOf('.') == -1) {
+                    secondOper(e);
+                } else {
+                    return;
+                };
+            };
+        } else {
+            if (!oper && !secondOp) {
+                if (firstOp == '0') {
+                    firstOp = '';
+                    firstStore = '';
+                    firstOper(e);
+                } else {
+                    firstOper(e);
+                }
+            } else {
+                if (secondOp == '0') {
+                    secondOp = '';
+                    secondStore = '';
+                    secondOper(e);
+                } else {
+                    secondOper(e);
+                }
+            };
+        };
+    } else {
+        return;
+    }
+});
 const operators = document.querySelectorAll('.operator');
 for (let i = 0; i < operators.length; i++) {
     operators[i].addEventListener('click', e => {
         if (!secondOp && firstOp) {
-            oper = e.target.innerHTML;
-            console.log(oper);
+            oper = e.target.id;
         } else if (firstOp && secondOp) {
             operStore = oper;
-            sum = operate(Number(firstStore), Number(secondStore), operStore);
+            sum = rounded(operate(Number(firstStore), Number(secondStore), operStore));
             firstStore = sum;
-            oper = e.target.innerHTML;
+            oper = e.target.id;
             secondOp = '';
-            console.log(sum);
-            console.log(oper);
+            updateScreen(sum);
         };
     });
 };
- 
+const equal = document.querySelector('.operate');
+equal.addEventListener('click', () => {
+    if (firstStore && oper && secondStore) {
+        operStore = oper;
+        sum = rounded(operate(Number(firstStore), Number(secondStore), operStore));
+        firstStore = sum;
+        secondOp = '';
+        updateScreen(sum);
+    };
+});
+const negator = document.querySelector('#negator');
+negator.addEventListener('click', () => {
+    if (!secondOp) {
+        firstOp = negate(firstOp);
+        firstStore = negate(firstStore);
+    } else {
+        secondOp = negate(secondOp);
+        secondStore = negate(secondStore);
+    };
+    screen.innerHTML = `<p>${negate(screen.innerText)}</p>`;
+});
+
+window.addEventListener('keydown', e => {
+    if (e.key == 'Backspace') {
+        if (!oper && !secondOp) {
+            if (screen.innerText.length == 1) {
+                firstOp = '0';
+                firstStore = firstOp;
+                screen.innerHTML = `<p>${firstOp}</p>`;
+            } else {
+                firstOp = firstOp.substring(0, firstOp.length - 1);
+                firstStore = firstOp;
+                screen.innerHTML = `<p>${firstOp}</p>`;
+            };
+        } else {
+            if (screen.innerText.length == 1) {
+                secondOp = '0';
+                secondStore = secondOp;
+                screen.innerHTML = `<p>${secondOp}</p>`;
+            } else {
+                secondOp = secondOp.substring(0, secondOp.length - 1);
+                secondStore = secondOp;
+                screen.innerHTML = `<p>${secondOp}</p>`;
+            };
+        };
+    } else {
+        return;
+    }
+})
