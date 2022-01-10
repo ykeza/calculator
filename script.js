@@ -104,16 +104,30 @@ const firstOper = num => {
     if (nums >= 7) {
         return;
     } else {
-        if (num.key) {            
-            let _num = num.key;
-            firstOp += `${_num}`;
-            firstStore = firstOp;
-            updateScreen(firstStore);
-        } else {            
-            let _num = num.target.id;
-            firstOp += `${_num}`;
-            firstStore = firstOp;
-            updateScreen(firstStore);
+        if (num.key) {     
+            if (num.key == '.' && firstStore == '') {                
+                let _num = num.key;
+                firstOp += `0${_num}`;
+                firstStore = firstOp;
+                updateScreen(firstStore);
+            } else {
+                let _num = num.key;
+                firstOp += `${_num}`;
+                firstStore = firstOp;
+                updateScreen(firstStore);
+            }       
+        } else {  
+            if (num.target.id == '.' && firstStore == '') {                
+                let _num = num.target.id;
+                firstOp += `0${_num}`;
+                firstStore = firstOp;
+                updateScreen(firstStore);
+            } else {
+                let _num = num.target.id;
+                firstOp += `${_num}`;
+                firstStore = firstOp;
+                updateScreen(firstStore);
+            }          
         }
     };
 };
@@ -123,15 +137,29 @@ const secondOper = num => {
         return;
     } else {
         if (num.key) {            
-            let _num = num.key;
-            secondOp += `${_num}`;
-            secondStore = secondOp;
-            updateScreen(secondStore);
-        } else {            
-            let _num = num.target.id;
-            secondOp += `${_num}`;
-            secondStore = secondOp;
-            updateScreen(secondStore);
+            if (num.key == '.' && secondStore == '') {                
+                let _num = num.key;
+                secondOp += `0${_num}`;
+                secondStore = secondOp;
+                updateScreen(secondStore);
+            } else {                
+                let _num = num.key;
+                secondOp += `${_num}`;
+                secondStore = secondOp;
+                updateScreen(secondStore);
+            }
+        } else {  
+            if (num.target.id == '.' && secondStore == '') {
+                let _num = num.target.id;
+                secondOp += `0${_num}`;
+                secondStore = secondOp;
+                updateScreen(secondStore);
+            } else {
+                let _num = num.target.id;
+                secondOp += `${_num}`;
+                secondStore = secondOp;
+                updateScreen(secondStore);
+            }          
         }
     };
 };
