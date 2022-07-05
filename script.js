@@ -7,7 +7,6 @@ let firstStore = '';
 let secondStore = '';
 let currentScreen = '';
 
-
 const add = (x, y) => {
     return x + y;
 };
